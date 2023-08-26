@@ -1,7 +1,7 @@
+// SPDX-License-Identifier: MIT
 pragma solidity >=0.5.0;
 
-import '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';
-
+import '../interfaces/IUniswapV2Pair.sol';
 import "./SafeMath.sol";
 
 library UniswapV2Library {
@@ -21,7 +21,7 @@ library UniswapV2Library {
                 hex'ff',
                 factory,
                 keccak256(abi.encodePacked(token0, token1)),
-                hex'96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f' // init code hash
+                hex'b85e49983fdc23d0eedee4b428f6391e859170fa857162c70f5756c75977b653' // init code hash
             ))));
     }
 

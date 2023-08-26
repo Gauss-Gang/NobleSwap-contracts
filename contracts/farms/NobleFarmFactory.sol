@@ -5,12 +5,12 @@ pragma solidity 0.8.19;
 import "./interfaces/IERC20Metadata.sol";
 import "./access/Ownable.sol";
 import "./token/SafeERC20.sol";
-import "./SmartChefInitializer.sol";
+import "./NobleFarmInitializer.sol";
 
 
-contract SmartChefFactory is Ownable {
+contract NobleFarmFactory is Ownable {
 
-    event NewSmartChefContract(address indexed smartChef);
+    event NewFarmContract(address indexed nobleFarm);
 
     constructor() {
         //
@@ -26,7 +26,7 @@ contract SmartChefFactory is Ownable {
      * @param _poolLimitPerUser: pool limit per user in stakedToken (if any, else 0)
      * @param _numberBlocksForUserLimit: block numbers available for user limit (after start block)
      * @param _admin: admin address with ownership
-     * @return address of new smart chef contract
+     * @return address of new noble farm contract
      */
     function deployPool(
         IERC20Metadata _stakedToken,
@@ -42,18 +42,18 @@ contract SmartChefFactory is Ownable {
         require(_rewardToken.totalSupply() >= 0);
         require(_stakedToken != _rewardToken, "Tokens must be be different");
 
-        bytes memory bytecode = type(SmartChefInitializable).creationCode;
+        bytes memory bytecode = type(NobleFarmInitializer).creationCode;
         // pass constructor argument
         bytecode = abi.encodePacked(bytecode);
 
         bytes32 salt = keccak256(abi.encodePacked(_stakedToken, _rewardToken, _startBlock));
-        address smartChefAddress;
+        address nobleFarmAddress;
 
         assembly {
-            smartChefAddress := create2(0, add(bytecode, 32), mload(bytecode), salt)
+            nobleFarmAddress := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
 
-        SmartChefInitializable(smartChefAddress).initialize(
+        NobleFarmInitializer(nobleFarmAddress).initialize(
             _stakedToken,
             _rewardToken,
             _rewardPerBlock,
@@ -64,6 +64,6 @@ contract SmartChefFactory is Ownable {
             _admin
         );
 
-        emit NewSmartChefContract(smartChefAddress);
+        emit NewFarmContract(nobleFarmAddress);
     }
 }

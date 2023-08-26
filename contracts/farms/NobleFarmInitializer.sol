@@ -9,11 +9,11 @@ import "./token/SafeERC20.sol";
 import "./security/ReentrancyGuard.sol";
 
 
-contract SmartChefInitializable is Ownable, ReentrancyGuard {
+contract NobleFarmInitializer is Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20Metadata;
 
-    // The address of the smart chef factory
-    address public immutable SMART_CHEF_FACTORY;
+    // The address of the noble farm factory
+    address public immutable NOBLE_FARM_FACTORY;
 
     // Whether a limit is set for users
     bool public userLimit;
@@ -24,10 +24,10 @@ contract SmartChefInitializable is Ownable, ReentrancyGuard {
     // Accrued token per share
     uint256 public accTokenPerShare;
 
-    // The block number when NOBLE mining ends.
+    // The block number when mining ends.
     uint256 public bonusEndBlock;
 
-    // The block number when NOBLE mining starts.
+    // The block number when mining starts.
     uint256 public startBlock;
 
     // The block number of the last pool update
@@ -39,7 +39,7 @@ contract SmartChefInitializable is Ownable, ReentrancyGuard {
     // Block numbers available for user limit (after start block)
     uint256 public numberBlocksForUserLimit;
 
-    // NOBLE tokens created per block.
+    // Reward tokens created per block.
     uint256 public rewardPerBlock;
 
     // The precision factor
@@ -70,7 +70,7 @@ contract SmartChefInitializable is Ownable, ReentrancyGuard {
 
 
     constructor() {
-        SMART_CHEF_FACTORY = msg.sender;
+        NOBLE_FARM_FACTORY = msg.sender;
     }
 
 
@@ -96,7 +96,7 @@ contract SmartChefInitializable is Ownable, ReentrancyGuard {
         address _admin
     ) external {
         require(!isInitialized, "Already initialized");
-        require(msg.sender == SMART_CHEF_FACTORY, "Not factory");
+        require(msg.sender == NOBLE_FARM_FACTORY, "Not factory");
 
         // Make this contract initialized
         isInitialized = true;
