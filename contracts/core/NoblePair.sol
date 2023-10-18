@@ -109,7 +109,7 @@ contract NoblePair is IUniswapV2Pair, NobleERC20 {
             if (_kLast != 0) {
                 uint rootK = Math.sqrt(uint(_reserve0).mul(_reserve1));
                 uint rootKLast = Math.sqrt(_kLast);
-                uint feeCoefficient = uint(1) / uint(4); // 0.25
+                uint feeCoefficient = uint(1) / uint(10); // 0.1
 
                 if (rootK > rootKLast) {
                     uint numerator = totalSupply.mul(rootK.sub(rootKLast));
